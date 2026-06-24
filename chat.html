@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Chat</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 20px; color: #333; }
+        
+        .chat-layout { 
+            display: flex; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            gap: 20px; 
+        }
+
+        .chat-sidebar { width: 250px; }
+        .sidebar-title { font-weight: bold; margin-bottom: 10px; }
+
+        #room-list { list-style: none; padding: 0; }
+        #room-list li { 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            margin-bottom: 5px; 
+            cursor: pointer; 
+        }
+        #room-list li.active { background: #eee; font-weight: bold; }
+
+        .chat-window { flex: 1; border: 1px solid #ccc; }
+        #title-bar { padding: 15px; border-bottom: 1px solid #ccc; }
+        
+        iframe { width: 100%; height: 700px; border: none; display: block; }
+
+        @media (max-width: 768px) {
+            .chat-layout { flex-direction: column; }
+            .chat-sidebar { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-layout">
+    <aside class="chat-sidebar">
+        <div class="sidebar-title">Channels</div>
+        <ul id="room-list">
+            <li data-room="general" class="active">General</li>
+            <li data-room="fishing-tips">Fishing Tips</li>
+            <li data-room="grid-status">Grid Status</li>
+        </ul>
+    </aside>
+
+    <main class="chat-window">
+        <div id="title-bar">
+            <h1 id="room-title">General</h1>
+        </div>
+        </main>
+</div>
+
+<script>
+    let currentRoom = "general";
+
+    window.addEventListener("load", () => {
+        updateRoomTitle(currentRoom);
+        recreateIRCFrame(currentRoom);
+
+        document.querySelectorAll("#room-list li").forEach(li => {
+            li.addEventListener("click", () => {
+                const room = li.dataset.room;
+                switchRoom(room);
+                recreateIRCFrame(room);
+            });
+        });
+    });
+
+    function updateRoomTitle(room) {
+        document.getElementById("room-title").textContent = room.charAt(0).toUpperCase() + room.slice(1);
+    }
+
+    function switchRoom(room) {
+        currentRoom = room;
+        updateRoomTitle(room);
+        document.querySelectorAll("#room-list li").forEach(li => {
+            li.classList.toggle("active", li.dataset.room === room);
+        });
+    }
+
+    function recreateIRCFrame(room) {
+        const windowDiv = document.querySelector(".chat-window");
+        const oldFrame = document.getElementById("irc-frame");
+        if (oldFrame) oldFrame.remove();
+
+        const newFrame = document.createElement("iframe");
+        newFrame.id = "irc-frame";
+        newFrame.src = `https://web.libera.chat/?channel=#foreverprescotts_${room}`;
+        windowDiv.appendChild(newFrame);
+    }
+</script>
+
+</body>
+</html>
