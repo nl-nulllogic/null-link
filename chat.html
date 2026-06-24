@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NULL_LINK // CHAT_TERMINAL</title>
+    <style>
+        /* Terminal Theme */
+        body { 
+            background-color: #0a0a0a; 
+            color: #ffffff; 
+            font-family: 'Courier New', Courier, monospace; 
+            margin: 0; 
+            padding: 40px; 
+        }
+        
+        .chat-layout { 
+            display: flex; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            gap: 20px; 
+        }
+
+        .chat-sidebar { width: 250px; }
+        .sidebar-title { 
+            text-transform: uppercase; 
+            border-bottom: 1px solid #ffffff; 
+            padding-bottom: 5px; 
+            margin-bottom: 15px; 
+        }
+
+        #room-list { list-style: none; padding: 0; }
+        #room-list li { 
+            padding: 10px; 
+            border: 1px solid #ffffff; 
+            margin-bottom: 10px; 
+            background: #ffffff; 
+            color: #000000; 
+            font-weight: bold;
+        }
+
+        .chat-window { flex: 1; border: 2px solid #ffffff; padding: 10px; }
+        #title-bar { padding: 10px; border-bottom: 1px solid #ffffff; margin-bottom: 10px; }
+        
+        iframe { 
+            width: 100%; 
+            height: 700px; 
+            border: none; 
+            display: block; 
+            filter: invert(0.9) hue-rotate(180deg); 
+        }
+
+        @media (max-width: 768px) {
+            .chat-layout { flex-direction: column; }
+            .chat-sidebar { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-layout">
+    <aside class="chat-sidebar">
+        <div class="sidebar-title">// CHANNELS</div>
+        <ul id="room-list">
+            <li>NULL_LINK</li>
+        </ul>
+    </aside>
+
+    <main class="chat-window">
+        <div id="title-bar">
+            <h1>NULL_LINK</h1>
+        </div>
+        </main>
+</div>
+
+<script>
+    window.addEventListener("load", () => {
+        const windowDiv = document.querySelector(".chat-window");
+        const newFrame = document.createElement("iframe");
+        
+        newFrame.id = "irc-frame";
+        // Locked to #null_link
+        newFrame.src = "https://web.libera.chat/?channel=#null_link";
+        
+        windowDiv.appendChild(newFrame);
+    });
+</script>
+
+</body>
+</html>
