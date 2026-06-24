@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Chat</title>
+    <title>NULL_LINK // CHAT_TERMINAL</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 20px; color: #333; }
+        /* Terminal Theme */
+        body { 
+            background-color: #0a0a0a; 
+            color: #ffffff; 
+            font-family: 'Courier New', Courier, monospace; 
+            margin: 0; 
+            padding: 40px; 
+        }
         
         .chat-layout { 
             display: flex; 
@@ -15,21 +22,29 @@
         }
 
         .chat-sidebar { width: 250px; }
-        .sidebar-title { font-weight: bold; margin-bottom: 10px; }
+        .sidebar-title { 
+            text-transform: uppercase; 
+            border-bottom: 1px solid #ffffff; 
+            padding-bottom: 5px; 
+            margin-bottom: 15px; 
+        }
 
         #room-list { list-style: none; padding: 0; }
         #room-list li { 
             padding: 10px; 
-            border: 1px solid #ccc; 
-            margin-bottom: 5px; 
+            border: 1px solid #ffffff; 
+            margin-bottom: 10px; 
             cursor: pointer; 
+            transition: 0.3s;
         }
-        #room-list li.active { background: #eee; font-weight: bold; }
+        #room-list li:hover { background: #1a1a1a; color: #00ffcc; }
+        #room-list li.active { background: #ffffff; color: #000000; font-weight: bold; }
 
-        .chat-window { flex: 1; border: 1px solid #ccc; }
-        #title-bar { padding: 15px; border-bottom: 1px solid #ccc; }
+        .chat-window { flex: 1; border: 2px solid #ffffff; padding: 10px; }
+        #title-bar { padding: 10px; border-bottom: 1px solid #ffffff; margin-bottom: 10px; }
         
-        iframe { width: 100%; height: 700px; border: none; display: block; }
+        iframe { width: 100%; height: 700px; border: none; display: block; filter: invert(0.9) hue-rotate(180deg); }
+        /* Note: The filter above helps the bright white Libera chat blend better into dark mode */
 
         @media (max-width: 768px) {
             .chat-layout { flex-direction: column; }
@@ -41,28 +56,26 @@
 
 <div class="chat-layout">
     <aside class="chat-sidebar">
-        <div class="sidebar-title">Channels</div>
+        <div class="sidebar-title">// CHANNELS</div>
         <ul id="room-list">
-            <li data-room="general" class="active">General</li>
-            <li data-room="fishing-tips">Fishing Tips</li>
-            <li data-room="grid-status">Grid Status</li>
+            <li data-room="general" class="active">GENERAL</li>
+            <li data-room="fishing-tips">FISHING_TIPS</li>
+            <li data-room="grid-status">GRID_STATUS</li>
         </ul>
     </aside>
 
     <main class="chat-window">
         <div id="title-bar">
-            <h1 id="room-title">General</h1>
+            <h1 id="room-title">GENERAL</h1>
         </div>
-        </main>
+    </main>
 </div>
 
 <script>
     let currentRoom = "general";
 
     window.addEventListener("load", () => {
-        updateRoomTitle(currentRoom);
         recreateIRCFrame(currentRoom);
-
         document.querySelectorAll("#room-list li").forEach(li => {
             li.addEventListener("click", () => {
                 const room = li.dataset.room;
@@ -73,7 +86,7 @@
     });
 
     function updateRoomTitle(room) {
-        document.getElementById("room-title").textContent = room.charAt(0).toUpperCase() + room.slice(1);
+        document.getElementById("room-title").textContent = room.replace(/-/g, "_").toUpperCase();
     }
 
     function switchRoom(room) {
