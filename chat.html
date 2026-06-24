@@ -34,17 +34,21 @@
             padding: 10px; 
             border: 1px solid #ffffff; 
             margin-bottom: 10px; 
-            cursor: pointer; 
-            transition: 0.3s;
+            background: #ffffff; 
+            color: #000000; 
+            font-weight: bold;
         }
-        #room-list li:hover { background: #1a1a1a; color: #00ffcc; }
-        #room-list li.active { background: #ffffff; color: #000000; font-weight: bold; }
 
         .chat-window { flex: 1; border: 2px solid #ffffff; padding: 10px; }
         #title-bar { padding: 10px; border-bottom: 1px solid #ffffff; margin-bottom: 10px; }
         
-        iframe { width: 100%; height: 700px; border: none; display: block; filter: invert(0.9) hue-rotate(180deg); }
-        /* Note: The filter above helps the bright white Libera chat blend better into dark mode */
+        iframe { 
+            width: 100%; 
+            height: 700px; 
+            border: none; 
+            display: block; 
+            filter: invert(0.9) hue-rotate(180deg); 
+        }
 
         @media (max-width: 768px) {
             .chat-layout { flex-direction: column; }
@@ -58,53 +62,28 @@
     <aside class="chat-sidebar">
         <div class="sidebar-title">// CHANNELS</div>
         <ul id="room-list">
-            <li data-room="null_link" class="active">NULL_LINK</li>
+            <li>NULL_LINK</li>
         </ul>
     </aside>
 
     <main class="chat-window">
         <div id="title-bar">
-            <h1 id="room-title">NULL_LINK</h1>
+            <h1>NULL_LINK</h1>
         </div>
-    </main>
+        </main>
 </div>
 
 <script>
-    let currentRoom = "general";
-
     window.addEventListener("load", () => {
-        recreateIRCFrame(currentRoom);
-        document.querySelectorAll("#room-list li").forEach(li => {
-            li.addEventListener("click", () => {
-                const room = li.dataset.room;
-                switchRoom(room);
-                recreateIRCFrame(room);
-            });
-        });
-    });
-
-    function updateRoomTitle(room) {
-        document.getElementById("room-title").textContent = room.replace(/-/g, "_").toUpperCase();
-    }
-
-    function switchRoom(room) {
-        currentRoom = room;
-        updateRoomTitle(room);
-        document.querySelectorAll("#room-list li").forEach(li => {
-            li.classList.toggle("active", li.dataset.room === room);
-        });
-    }
-
-    function recreateIRCFrame(room) {
         const windowDiv = document.querySelector(".chat-window");
-        const oldFrame = document.getElementById("irc-frame");
-        if (oldFrame) oldFrame.remove();
-
         const newFrame = document.createElement("iframe");
+        
         newFrame.id = "irc-frame";
-        newFrame.src = `https://web.libera.chat/?channel=#null_link`;
+        // Locked to #null_link
+        newFrame.src = "https://web.libera.chat/?channel=#null_link";
+        
         windowDiv.appendChild(newFrame);
-    }
+    });
 </script>
 
 </body>
