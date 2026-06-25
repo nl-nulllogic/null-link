@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>NULL_LINK // ARCHITECTS OF THE VOID</title>
     <style>
-        /* CSS Styling */
         body {
             background-color: #0a0a0a;
             color: #ffffff;
@@ -15,17 +14,18 @@
             align-items: center;
         }
 
-        /* Menu Bar Styling */
+        /* Centered Nav Bar */
         nav {
             width: 100%;
-            background-color: #1a1a1a;
-            border-bottom: 2px solid #ffffff;
+            background-color: #0a0a0a;
+            border-bottom: 1px solid #ffffff;
             padding: 15px 0;
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            justify-content: center; /* Centers the content horizontally */
+            gap: 20px;
             position: sticky;
             top: 0;
+            z-index: 1000;
         }
 
         nav a {
@@ -36,9 +36,7 @@
             transition: color 0.3s;
         }
 
-        nav a:hover {
-            color: #00ffcc;
-        }
+        nav a:hover { color: #00ffcc; }
 
         .container {
             max-width: 800px;
@@ -48,68 +46,63 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
-        h1, h2 {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+        /* Animation */
+        .animate-text { visibility: hidden; display: block; }
 
-        .system-init {
-            color: #aaa;
-            font-style: italic;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin: 10px 0;
-            font-weight: bold;
-        }
-
-        .footer {
-            margin-top: 40px;
-            font-size: 0.8em;
-            color: #666;
-        }
+        h1, h2 { text-transform: uppercase; letter-spacing: 2px; }
+        .system-init { color: #aaa; font-style: italic; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; font-weight: bold; }
+        .footer { margin-top: 40px; font-size: 0.8em; color: #666; }
     </style>
 </head>
 <body>
 
+    <!-- Centered Nav Bar -->
     <nav>
         <a href="index.html">HOME</a>
         <a href="chat.html">CHAT</a>
-        <a href="https://github.com/nl-nulllogic/null-link">GITHUB</a>
+        <a href="https://github.com/nl-nulllogic">GITHUB</a>
         <a href="about.html">ABOUT</a>
+        <a href="register.html" style="color: #00ffcc;">REGISTER/SIGN-IN</a>
     </nav>
 
-    <div class="container">
-        <h1>NULL_LINK</h1>
-        <div class="system-init">// SYSTEM_INIT / Connection established...</div>
+    <div class="container" id="terminal-output">
+        <h1 class="animate-text">NULL_LINK</h1>
+        <div class="system-init animate-text">// SYSTEM_INIT / Connection established...</div>
 
-        <p>You have found NULL_LINK. We are the active architects of the virtual frontier.</p>
+        <p class="animate-text">You have found NULL_LINK. We are the active architects of the virtual frontier.</p>
 
-        <p>We operate in the quiet spaces where imagination intersects with technical precision. Our ranks are comprised of:</p>
-
-        <ul>
-            <li>[BUILDERS]: Forging the architecture of new, immersive worlds.</li>
-            <li>[EXPLORERS]: Charting the uncharted subnets and hidden corners of the grid.</li>
-            <li>[CODERS]: Mastering the language of the machine to push the boundaries of what is possible.</li>
-            <li>[DEVELOPERS]: Engineering sophisticated systems beyond the visible layer.</li>
+        <ul id="list-anim">
+            <li class="animate-text">[BUILDERS]: Forging the architecture of new, immersive worlds.</li>
+            <li class="animate-text">[EXPLORERS]: Charting the uncharted subnets and hidden corners of the grid.</li>
+            <li class="animate-text">[CODERS]: Mastering the language of the machine to push the boundaries of what is possible.</li>
+            <li class="animate-text">[DEVELOPERS]: Engineering sophisticated systems beyond the visible layer.</li>
         </ul>
 
-        <hr>
+        <hr class="animate-text">
 
-        <h2>NULL_LOGIC // TERMINAL</h2>
-        <p>Exploring the architecture of this world, one script at a time. I’m a developer by trade and a digital wanderer by choice. Here to observe, build, and see what the simulation has to offer.</p>
-        <p><em>Don't be a stranger if you see me in the wild.</em></p>
+        <h2 class="animate-text">NULL_LOGIC // TERMINAL</h2>
+        <p class="animate-text">Exploring the architecture of this world, one script at a time. Here to observe, build, and see what the simulation has to offer.</p>
         
-        <div class="footer">// ARCHITECTS OF THE VOID //</div>
+        <div class="footer animate-text">// ARCHITECTS OF THE VOID //</div>
     </div>
 
+    <script>
+        async function typeWriterEffect() {
+            const elements = document.querySelectorAll('.animate-text');
+            for (let el of elements) {
+                el.style.visibility = 'visible';
+                const text = el.innerHTML;
+                el.innerHTML = '';
+                for (let i = 0; i < text.length; i++) {
+                    el.innerHTML += text.charAt(i);
+                    await new Promise(resolve => setTimeout(resolve, 10));
+                }
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+        }
+        window.onload = typeWriterEffect;
+    </script>
 </body>
 </html>
