@@ -14,6 +14,13 @@
             align-items: center;
         }
 
+        /* Loading Terminal Overlay */
+        #loading-terminal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0a0a0a; z-index: 9999; display: flex;
+            align-items: center; padding: 40px; font-size: 1.2rem;
+        }
+
         nav {
             width: 100%;
             background-color: #1a1a1a;
@@ -44,20 +51,17 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
+        .animate-text { visibility: hidden; display: block; }
         h1, h2 { text-transform: uppercase; letter-spacing: 2px; }
-
-        .system-init {
-            color: #aaa;
-            font-style: italic;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
+        .system-init { color: #aaa; font-style: italic; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
         .footer { margin-top: 40px; font-size: 0.8em; color: #666; }
     </style>
 </head>
 <body>
+
+    <div id="loading-terminal">
+        <div id="console-text"></div>
+    </div>
 
     <nav>
         <a href="index.html">HOME</a>
@@ -67,19 +71,48 @@
     </nav>
 
     <div class="container">
-        <h1>ABOUT // NULL_LINK</h1>
-        <div class="system-init">// SYSTEM_INIT / Connection established...</div>
+        <h1 class="animate-text">ABOUT // NULL_LINK</h1>
+        <div class="system-init animate-text">// SYSTEM_INIT / Connection established...</div>
 
-        <p>This space is dedicated to the documentation of our grid-wide initiatives and the underlying architecture that powers our projects.</p>
+        <p class="animate-text">This space is dedicated to the documentation of our grid-wide initiatives and the underlying architecture that powers our projects.</p>
         
-        <h2>// OBJECTIVE</h2>
-        <p>To establish a stable, low-latency framework for community interaction and resource distribution across the grid. We prioritize efficiency, technical cleanliness, and open communication for all explorers and builders.</p>
+        <h2 class="animate-text">// OBJECTIVE</h2>
+        <p class="animate-text">To establish a stable, low-latency framework for community interaction and resource distribution across the grid. We prioritize efficiency, technical cleanliness, and open communication for all explorers and builders.</p>
 
-        <h2>// MISSION</h2>
-        <p>We are here to push the limits of simulation utility. Whether through custom script development or building reliable infrastructure, our mission remains constant: to empower users by bridging the gap between complexity and accessibility.</p>
+        <h2 class="animate-text">// MISSION</h2>
+        <p class="animate-text">We are here to push the limits of simulation utility. Whether through custom script development or building reliable infrastructure, our mission remains constant: to empower users by bridging the gap between complexity and accessibility.</p>
         
-        <div class="footer">// ARCHITECTS OF THE VOID //</div>
+        <div class="footer animate-text">// ARCHITECTS OF THE VOID //</div>
     </div>
 
+    <script>
+        const logs = ["Loading Module: ABOUT...", "Fetching Data...", "Syncing Grid..."];
+
+        async function boot() {
+            const consoleEl = document.getElementById("console-text");
+            for (const line of logs) {
+                consoleEl.innerHTML += "> " + line + "<br>";
+                await new Promise(r => setTimeout(r, 400));
+            }
+            document.getElementById("loading-terminal").style.display = "none";
+            startTyping();
+        }
+
+        async function startTyping() {
+            const elements = document.querySelectorAll('.animate-text');
+            for (let el of elements) {
+                el.style.visibility = 'visible';
+                const text = el.innerHTML;
+                el.innerHTML = '';
+                for (let i = 0; i < text.length; i++) {
+                    el.innerHTML += text.charAt(i);
+                    await new Promise(r => setTimeout(r, 10));
+                }
+                await new Promise(r => setTimeout(r, 50));
+            }
+        }
+
+        window.onload = boot;
+    </script>
 </body>
 </html>
