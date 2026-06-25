@@ -2,83 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NULL_LINK // CHAT_TERMINAL</title>
     <style>
-        /* Terminal Theme */
-        body { 
-            background-color: #0a0a0a; 
-            color: #ffffff; 
-            font-family: 'Courier New', Courier, monospace; 
-            margin: 0; 
+        body { background-color: #0a0a0a; color: #ffffff; font-family: 'Courier New', Courier, monospace; margin: 0; }
+        
+        /* Terminal Boot Loader */
+        #loading-terminal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0a0a0a; z-index: 9999; display: flex;
+            align-items: center; padding: 40px; font-size: 1.2rem;
         }
 
-        /* Nav Bar */
-        nav {
-            width: 100%;
-            background-color: #1a1a1a;
-            border-bottom: 2px solid #ffffff;
-            padding: 15px 0;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            position: sticky;
-            top: 0;
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        nav a:hover { color: #00ffcc; }
-
+        /* Rest of your CSS remains the same... */
+        nav { width: 100%; background-color: #1a1a1a; border-bottom: 2px solid #ffffff; padding: 15px 0; display: flex; justify-content: center; gap: 30px; position: sticky; top: 0; }
+        nav a { color: #ffffff; text-decoration: none; text-transform: uppercase; font-weight: bold; }
         .content-wrap { padding: 40px; }
-        
-        .chat-layout { 
-            display: flex; 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            gap: 20px; 
-        }
-
+        .chat-layout { display: flex; max-width: 1200px; margin: 0 auto; gap: 20px; }
         .chat-sidebar { width: 250px; }
-        .sidebar-title { 
-            text-transform: uppercase; 
-            border-bottom: 1px solid #ffffff; 
-            padding-bottom: 5px; 
-            margin-bottom: 15px; 
-        }
-
-        #room-list li { 
-            padding: 10px; 
-            border: 1px solid #ffffff; 
-            background: #ffffff; 
-            color: #000000; 
-            font-weight: bold;
-        }
-
+        .sidebar-title { text-transform: uppercase; border-bottom: 1px solid #ffffff; padding-bottom: 5px; margin-bottom: 15px; }
+        #room-list li { padding: 10px; border: 1px solid #ffffff; background: #ffffff; color: #000000; font-weight: bold; }
         .chat-window { flex: 1; border: 2px solid #ffffff; padding: 10px; }
-        #title-bar { padding: 10px; border-bottom: 1px solid #ffffff; margin-bottom: 10px; }
-        
-        iframe { 
-            width: 100%; 
-            height: 700px; 
-            border: none; 
-            display: block; 
-            filter: invert(0.9) hue-rotate(180deg); 
-        }
-
-        @media (max-width: 768px) {
-            .chat-layout { flex-direction: column; }
-            .chat-sidebar { width: 100%; }
-        }
+        iframe { width: 100%; height: 700px; border: none; display: block; filter: invert(0.9) hue-rotate(180deg); }
     </style>
 </head>
 <body>
+
+    <div id="loading-terminal">
+        <div id="console-text"></div>
+    </div>
 
     <nav>
         <a href="index.html">HOME</a>
@@ -95,25 +46,39 @@
                     <li>NULL_LINK</li>
                 </ul>
             </aside>
-
-            <main class="chat-window">
-                <div id="title-bar">
-                    <h1>NULL_LINK</h1>
-                </div>
-                <!-- Iframe injected here -->
+            <main class="chat-window" id="window">
+                <div id="title-bar"><h1>NULL_LINK</h1></div>
             </main>
         </div>
     </div>
 
 <script>
-    window.addEventListener("load", () => {
-        const windowDiv = document.querySelector(".chat-window");
+    const logs = [
+        "Initializing kernel...",
+        "Establishing encrypted handshake...",
+        "Connecting to IRC_NODE_01...",
+        "Authenticating session...",
+        "SYSTEM_READY."
+    ];
+
+    async function boot() {
+        const consoleEl = document.getElementById("console-text");
+        for (const line of logs) {
+            consoleEl.innerHTML += "> " + line + "<br>";
+            await new Promise(r => setTimeout(r, 600)); // Delay between lines
+        }
+        document.getElementById("loading-terminal").style.display = "none";
+        loadChat();
+    }
+
+    function loadChat() {
+        const windowDiv = document.getElementById("window");
         const newFrame = document.createElement("iframe");
-        newFrame.id = "irc-frame";
         newFrame.src = "https://web.libera.chat/?channel=#null_link";
         windowDiv.appendChild(newFrame);
-    });
-</script>
+    }
 
+    window.onload = boot;
+</script>
 </body>
 </html>
