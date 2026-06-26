@@ -6,23 +6,28 @@
     <style>
         body { background-color: #0a0a0a; color: #ffffff; font-family: 'Courier New', Courier, monospace; margin: 0; }
         
-        /* Terminal Boot Loader */
         #loading-terminal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #0a0a0a; z-index: 9999; display: flex;
             align-items: center; padding: 40px; font-size: 1.2rem;
         }
 
-        /* Rest of your CSS remains the same... */
-        nav { width: 100%; background-color: #1a1a1a; border-bottom: 2px solid #ffffff; padding: 15px 0; display: flex; justify-content: center; gap: 30px; position: sticky; top: 0; }
+        nav { width: 100%; background-color: #1a1a1a; border-bottom: 2px solid #ffffff; padding: 15px 0; display: flex; justify-content: center; gap: 30px; }
         nav a { color: #ffffff; text-decoration: none; text-transform: uppercase; font-weight: bold; }
+        
         .content-wrap { padding: 40px; }
         .chat-layout { display: flex; max-width: 1200px; margin: 0 auto; gap: 20px; }
         .chat-sidebar { width: 250px; }
         .sidebar-title { text-transform: uppercase; border-bottom: 1px solid #ffffff; padding-bottom: 5px; margin-bottom: 15px; }
-        #room-list li { padding: 10px; border: 1px solid #ffffff; background: #ffffff; color: #000000; font-weight: bold; }
-        .chat-window { flex: 1; border: 2px solid #ffffff; padding: 10px; }
-        iframe { width: 100%; height: 700px; border: none; display: block; filter: invert(0.9) hue-rotate(180deg); }
+        
+        #room-list li { padding: 10px; border: 1px solid #ffffff; background: #ffffff; color: #000000; font-weight: bold; cursor: pointer; }
+        
+        .chat-window { flex: 1; border: 2px solid #ffffff; padding: 10px; min-height: 700px; }
+        
+        /* Iframe styling with fallback container */
+        .chat-container { width: 100%; height: 700px; }
+        iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate(180deg); }
+        .error-msg { text-align: center; margin-top: 50px; color: #ff0000; }
     </style>
 </head>
 <body>
@@ -47,25 +52,19 @@
                 </ul>
             </aside>
             <main class="chat-window" id="window">
-                <div id="title-bar"><h1>NULL_LINK</h1></div>
-            </main>
+                <div id="title-bar"><h1>NULL_LINK // CHANNEL_INTERFACE</h1></div>
+                </main>
         </div>
     </div>
 
 <script>
-    const logs = [
-        "Initializing kernel...",
-        "Establishing encrypted handshake...",
-        "Connecting to IRC_NODE_01...",
-        "Authenticating session...",
-        "SYSTEM_READY."
-    ];
+    const logs = ["Initializing kernel...", "Establishing handshake...", "Connecting to IRC_NODE_01...", "SYSTEM_READY."];
 
     async function boot() {
         const consoleEl = document.getElementById("console-text");
         for (const line of logs) {
             consoleEl.innerHTML += "> " + line + "<br>";
-            await new Promise(r => setTimeout(r, 600)); // Delay between lines
+            await new Promise(r => setTimeout(r, 600));
         }
         document.getElementById("loading-terminal").style.display = "none";
         loadChat();
@@ -73,9 +72,18 @@
 
     function loadChat() {
         const windowDiv = document.getElementById("window");
-        const newFrame = document.createElement("iframe");
-        newFrame.src = "https://web.libera.chat/?channel=#null_link";
-        windowDiv.appendChild(newFrame);
+        const chatUrl = "https://web.libera.chat/?channel=#null_link";
+        
+        // We create a container to handle the potential block
+        windowDiv.innerHTML += `
+            <div class="chat-container">
+                <iframe src="${chatUrl}" title="Chat"></iframe>
+                <div class="error-msg">
+                    <p>If the chat fails to load, the host is blocking external frames.</p>
+                    <a href="${chatUrl}" target="_blank" style="color:#0f0;">>> CLICK HERE TO OPEN CHAT IN NEW WINDOW <<</a>
+                </div>
+            </div>
+        `;
     }
 
     window.onload = boot;
