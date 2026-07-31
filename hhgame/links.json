@@ -1,17 +1,17 @@
-[
-  { 
-    "title": "NULL_LINK", 
-    "url": "https://nl-nulllogic.github.io/null-link/", 
-    "snippet": "NULL_LINK. We are the active architects of the virtual frontier." 
+module.exports = [
+  {
+    title: "NULL_LINK",
+    url: "https://nl-nulllogic.github.io/null-link/",
+    snippet: "NULL_LINK. We are the active architects of the virtual frontier."
   },
-  { 
-    "title": "JDOS/Games", 
-    "url": "https://js-dos.com/games/", 
-    "snippet": "Javados, old classic dos game collection." 
+  {
+    title: "JDOS/Games",
+    url: "https://js-dos.com/games/",
+    snippet: "Javados, old classic dos game collection."
   },
-  { 
-    "title": "Internet Archive", 
-    "url": "https://archive.org", 
-    "snippet": "Digital library of free universal access to books, movies, and software." 
+  {
+    title: "Internet Archive",
+    url: "https://archive.org",
+    snippet: "Digital library of free universal access to books, movies, and software."
   }
-]
+];
