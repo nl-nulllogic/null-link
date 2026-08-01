@@ -1,0 +1,12 @@
+{
+  "id": "nulllink-browser-mod",
+  "name": "NULL_LINK Browser",
+  "version": "1.0.0",
+  "author": "ShortWlf",
+  "description": "Adds the NULL_LINK browser application.",
+  "apiVersion": 1,
+  "cover": "./cover.png",
+  "icon": "./icon.png",
+  "permissions": [],
+  "tags": ["app", "utility"]
+}
